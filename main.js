@@ -1,24 +1,43 @@
+
+
 //meta cuantos vasos (goal = meta)?
 let goal = 8;
-//current = progreso, empieza en cero por que todavia no tomas agua
-let current = 0;
+
+//reset diario
+const today = new Date().toDateString();
+const lastDate = localStorage.getItem("lastDate");
+if(lastDate !== today){
+    localStorage.setItem("current", 0);
+    localStorage.setItem("lastDate", today);
+}
+
+
+    //se pregunta si hay algo guardado
+    const savedCurrent = localStorage.getItem("current");
+
+    //si existe algo guardado usalo sino dejalo en 0
+    let current = savedCurrent ? Number(savedCurrent) : 0; 
+
+
+
 
 //capturamos el porcentaje del progreso 
 const goalEl = document.getElementById('goal');
 const currentEl = document.getElementById('current');
 const progressBar = document.getElementById('progressBar');
-const drinkBar = document.getElementById('drinkBtn');
+const drinkBtn = document.getElementById('drinkBtn');
 
 goalEl.textContent = goal;
 
+ updateUI();
+
 drinkBtn.addEventListener("click", () => {
-    //evita que el contador supere la meta
     if(current < goal){
         current++;
+        localStorage.setItem("current", current);
         updateUI();
     }
-
-});
+})
 
 function updateUI(){
     //Muestra en pantalla cuántos vasos llevás.
@@ -32,19 +51,30 @@ function updateUI(){
 }
 
 if("Notification" in window){
-    Notification.requestPermission
+    Notification.requestPermission().then(permission => {
+        if(permission === "granted"){
+            setInterval(remainder, 50 * 60 * 1000);
+        }
+    })
 }
 
 function remainder(){
-    new Notification ("💧 Hidratate", {
-        body: "Es momento de tomar awita"
-    });
+    if(Notification.permission === "granted"){
+        new Notification("💧 Hidratate", {
+            body: "Es momento de tomar awita"
+        });
+    }
 }
-Notification.requestPermission();
-setInterval(remainder, 1 * 60 * 1000);
+
+    //intervalos de tiempo botones
+    const intervalsButtons = document.querySelectorAll("interval.btn");
+
+
+
 
  
 
+   
 
 
 
