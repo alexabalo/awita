@@ -12,20 +12,20 @@ if(lastDate !== today){
 }
 
 
-    //se pregunta si hay algo guardado
-    const savedCurrent = localStorage.getItem("current");
+//se pregunta si hay algo guardado
+const savedCurrent = localStorage.getItem("current");
 
-    //si existe algo guardado usalo sino dejalo en 0
-    let current = savedCurrent ? Number(savedCurrent) : 0; 
-
-
-
+//si existe algo guardado usalo sino dejalo en 0
+let current = savedCurrent ? Number(savedCurrent) : 0; 
 
 //capturamos el porcentaje del progreso 
 const goalEl = document.getElementById('goal');
 const currentEl = document.getElementById('current');
 const progressBar = document.getElementById('progressBar');
 const drinkBtn = document.getElementById('drinkBtn');
+
+//intervalos de tiempo botones
+const intervalsButtons = document.querySelectorAll("interval.btn");
 
 goalEl.textContent = goal;
 
@@ -66,8 +66,19 @@ function remainder(){
     }
 }
 
-    //intervalos de tiempo botones
-    const intervalsButtons = document.querySelectorAll("interval.btn");
+//funcion buttons intervals
+function setActiveButton(minutes){
+    intervalsButtons.forEach(btn => {
+        btn.classList.remove("btn-primary");
+        btn.classList.add("btn-primary");
+
+        if(Number(btn.dateset.minutes) === minutes){
+            btn.classList.remove("btn-outline-primary");
+            btn.classList.add("btn-primary")
+        }
+    })
+
+}
 
 
 
