@@ -26,6 +26,7 @@ function updateUI(){
     currentEl.textContent = current;
     //calcula el porcentaje del progreso 
     const porcent = (current / goal) * 100;
+    
 }
 
 
