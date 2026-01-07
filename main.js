@@ -22,13 +22,23 @@ goalEl.textContent = goal;
 updateUI();
 
 
+function updateUI(){
+    currentEl.textContent = current;
+    //calcula el porcentaje del progreso 
+    const porcent = (current / goal) * 100;
+}
 
+
+/*
 function updateUI() {
   currentEl.textContent = current;
   const percent = (current / goal) * 100;
   progressBar.style.width = percent + "%";
   progressBar.textContent = Math.round(percent) + "%";
 }
+*/
+
+
 
 function reminder() {
   alert("💧 Es hora de tomar agua");

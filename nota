@@ -67,3 +67,9 @@ Y la construimos como si fuera una app para publicar 🚀
 🚀 Historial semanal
 🚀 Reset automático a las 00:00
 🚀 PWA (instalable como app)
+
+1️⃣ Guardar intervalo en localStorage
+2️⃣ Resaltar botón activo
+3️⃣ Mostrar “Próximo recordatorio en X min”
+4️⃣ Notificaciones reales (sin alert)
+5️⃣ Convertirla en PWA instalable
