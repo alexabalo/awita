@@ -1,57 +1,28 @@
+
+
+//meta cuantos vasos (goal = meta)?
 let goal = 8;
 
+//reset diario
 const today = new Date().toDateString();
 const lastDate = localStorage.getItem("lastDate");
-
 if (lastDate !== today) {
     localStorage.setItem("current", 0);
     localStorage.setItem("lastDate", today);
-
-
-const intervalButtons =  document.querySelectorAll(".interval-btn");
-
-if (lastDate !== today) {
-  localStorage.setItem("current", 0);
-  localStorage.setItem("lastDate", today);
 }
 
+
+//se pregunta si hay algo guardado
 const savedCurrent = localStorage.getItem("current");
-let current = savedCurrent ? Number(savedCurrent) : 0;
-
-const currentEl = document.getElementById("current");
-const goalEl = document.getElementById("goal");
-const progressBar = document.getElementById("progressBar");
-const drinkBtn = document.getElementById("drinkBtn");
-
-goalEl.textContent = goal;
-updateUI();
-
-
-function updateUI(){
-    currentEl.textContent = current;
-    //calcula el porcentaje del progreso 
-    const porcent = (current / goal) * 100;
-    
-
-}
-
-
-/*
-function updateUI() {
-  currentEl.textContent = current;
-  const percent = (current / goal) * 100;
-  progressBar.style.width = percent + "%";
-  progressBar.textContent = Math.round(percent) + "%";
-}
-*/
-
 
 //si existe algo guardado usalo sino dejalo en 0
 let current = savedCurrent ? Number(savedCurrent) : 0;
 
-
-
-
+//capturamos el porcentaje del progreso 
+const goalEl = document.getElementById('goal');
+const currentEl = document.getElementById('current');
+const progressBar = document.getElementById('progressBar');
+const drinkBtn = document.getElementById('drinkBtn');
 
 //CONTADOR DE TIEMPO REAL,DE PROXIMO RECORDATORIO
 const countdownEl = document.getElementById("countdown");
@@ -61,15 +32,7 @@ let remainingSeconds = 0;
 //intervalos de tiempo botones
 const intervalsButtons = document.querySelectorAll(".interval-btn");
 
-function reminder() {
-  alert("💧 Es hora de tomar agua");
-}
-
-
-//evita bugs y spam, multiples alerts
-let reminderTimeout = null;
-let reminderInterval = null;
-
+goalEl.textContent = goal;
 
 updateUI();
 
@@ -191,38 +154,6 @@ function updateCountdown(){
 
 
 
-
-
-function startReminder(minutes){
-    clearTimeout(reminderTimeout);
-    clearInterval(reminderInterval);
-    reminderTimeout = setTimeout(() => {
-        reminder();
-
-        //Después del primer aviso, ahora, repite el recordatorio cada X minutos.
-    reminderInterval = setInterval(reminder, minutes * 60 * 1000);
-    }, minutes * 60 * 1000);
-
-}
-
-intervalButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-        const minutes = Number(btn.dataset.minutes);
-        startReminder(minutes);
-    });
-});
-
-drinkBtn.addEventListener("click", () => {
-    if(current < goal){
-        current ++;
-        localStorage.setItem("current",current);
-        updateUI();
-        if(current === goal){
-            clearTimeout(reminderTimeout);
-            clearInterval(reminderInterval);
-        }
-    }
-})
 
 
 
