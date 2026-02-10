@@ -2,11 +2,11 @@ let goal = 8;
 
 const today = new Date().toDateString();
 const lastDate = localStorage.getItem("lastDate");
-<<<<<<< HEAD
+
 if (lastDate !== today) {
     localStorage.setItem("current", 0);
     localStorage.setItem("lastDate", today);
-=======
+
 
 const intervalButtons =  document.querySelectorAll(".interval-btn");
 
@@ -32,7 +32,7 @@ function updateUI(){
     //calcula el porcentaje del progreso 
     const porcent = (current / goal) * 100;
     
->>>>>>> c8211c75b7238bd0a7f08ee7e5a295dd8f0b668c
+
 }
 
 
@@ -45,14 +45,14 @@ function updateUI() {
 }
 */
 
-<<<<<<< HEAD
+
 //si existe algo guardado usalo sino dejalo en 0
 let current = savedCurrent ? Number(savedCurrent) : 0;
-=======
->>>>>>> c8211c75b7238bd0a7f08ee7e5a295dd8f0b668c
 
 
-<<<<<<< HEAD
+
+
+
 //CONTADOR DE TIEMPO REAL,DE PROXIMO RECORDATORIO
 const countdownEl = document.getElementById("countdown");
 let countdownInterval = null;
@@ -60,17 +60,17 @@ let remainingSeconds = 0;
 
 //intervalos de tiempo botones
 const intervalsButtons = document.querySelectorAll(".interval-btn");
-=======
+
 function reminder() {
   alert("💧 Es hora de tomar agua");
 }
->>>>>>> c8211c75b7238bd0a7f08ee7e5a295dd8f0b668c
+
 
 //evita bugs y spam, multiples alerts
 let reminderTimeout = null;
 let reminderInterval = null;
 
-<<<<<<< HEAD
+
 updateUI();
 
 drinkBtn.addEventListener("click", () => {
@@ -192,7 +192,7 @@ function updateCountdown(){
 
 
 
-=======
+
 function startReminder(minutes){
     clearTimeout(reminderTimeout);
     clearInterval(reminderInterval);
@@ -224,6 +224,5 @@ drinkBtn.addEventListener("click", () => {
     }
 })
 
->>>>>>> c8211c75b7238bd0a7f08ee7e5a295dd8f0b668c
 
 
