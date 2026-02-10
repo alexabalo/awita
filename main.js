@@ -6,7 +6,7 @@ let goal = 8;
 //reset diario
 const today = new Date().toDateString();
 const lastDate = localStorage.getItem("lastDate");
-if(lastDate !== today){
+if (lastDate !== today) {
     localStorage.setItem("current", 0);
     localStorage.setItem("lastDate", today);
 }
@@ -16,7 +16,7 @@ if(lastDate !== today){
 const savedCurrent = localStorage.getItem("current");
 
 //si existe algo guardado usalo sino dejalo en 0
-let current = savedCurrent ? Number(savedCurrent) : 0; 
+let current = savedCurrent ? Number(savedCurrent) : 0;
 
 //capturamos el porcentaje del progreso 
 const goalEl = document.getElementById('goal');
@@ -24,22 +24,36 @@ const currentEl = document.getElementById('current');
 const progressBar = document.getElementById('progressBar');
 const drinkBtn = document.getElementById('drinkBtn');
 
+//CONTADOR DE TIEMPO REAL,DE PROXIMO RECORDATORIO
+const countdownEl = document.getElementById("countdown");
+let countdownInterval = null;
+let remainingSeconds = 0;
+
 //intervalos de tiempo botones
-const intervalsButtons = document.querySelectorAll("interval.btn");
+const intervalsButtons = document.querySelectorAll(".interval-btn");
 
 goalEl.textContent = goal;
 
- updateUI();
+updateUI();
 
 drinkBtn.addEventListener("click", () => {
-    if(current < goal){
+    if (current < goal) {
         current++;
         localStorage.setItem("current", current);
         updateUI();
-    }
-})
 
-function updateUI(){
+        remainingSeconds = 0;
+        updateCountdown();
+
+
+        if (current === goal) {
+            stopReminder();
+        }
+    }
+});
+
+
+function updateUI() {
     //Muestra en pantalla cuántos vasos llevás.
     currentEl.textContent = current;
     //calcula el porcentaje
@@ -50,42 +64,96 @@ function updateUI(){
     progressBar.textContent = Math.round(percent) + "%";
 }
 
-if("Notification" in window){
-    Notification.requestPermission().then(permission => {
-        if(permission === "granted"){
-            setInterval(remainder, 50 * 60 * 1000);
-        }
-    })
+if ("Notification" in window) {
+    Notification.requestPermission();
 }
 
-function remainder(){
-    if(Notification.permission === "granted"){
+function reminder() {
+    if (Notification.permission === "granted") {
         new Notification("💧 Hidratate", {
-            body: "Es momento de tomar awita"
+            body: "Es momento de tomar agua"
         });
     }
 }
 
-//funcion buttons intervals
-function setActiveButton(minutes){
+
+let reminderTimeout = null;
+let reminderInterval = null;
+
+function startReminder(minutes){
+    if (!minutes || isNaN(minutes)) return;
+
+    clearTimeout(reminderTimeout);
+    clearInterval(reminderInterval);
+    clearInterval(countdownInterval);
+
+    remainingSeconds = minutes * 60;
+    updateCountdown();
+    countdownInterval = setInterval(updateCountdown, 1000);
+
+    reminderTimeout = setTimeout(() => {
+        reminder();
+        remainingSeconds = minutes * 60;
+
+        reminderInterval = setInterval(() => {
+            reminder();
+            remainingSeconds = minutes * 60;
+        }, minutes * 60 * 1000);
+
+    }, minutes * 60 * 1000);
+}
+
+
+function stopReminder(){
+    clearTimeout(reminderTimeout);
+    clearInterval(reminderInterval);
+    clearInterval(countdownInterval);
+    countdownEl.textContent = "✔️ Meta alcanzada";
+}
+
+
+function setActiveButton(minutes) {
     intervalsButtons.forEach(btn => {
         btn.classList.remove("btn-primary");
-        btn.classList.add("btn-primary");
+        btn.classList.add("btn-outline-primary");
 
-        if(Number(btn.dateset.minutes) === minutes){
+        if (Number(btn.dataset.minutes) === minutes) {
             btn.classList.remove("btn-outline-primary");
-            btn.classList.add("btn-primary")
+            btn.classList.add("btn-primary");
         }
-    })
+    });
+}
 
+intervalsButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        const minutes = Number(btn.dataset.minutes);
+        localStorage.setItem("interval", minutes);
+        setActiveButton(minutes);
+        startReminder(minutes);
+    })
+})
+
+const savedInterval = Number(localStorage.getItem("interval")) || 30;
+setActiveButton(savedInterval);
+
+
+
+//funcion actualizar contador
+function updateCountdown(){
+    const minutes = Math.floor(remainingSeconds / 60);
+    const seconds = remainingSeconds % 60;
+
+    countdownEl.textContent =
+        `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+
+    if (remainingSeconds > 0) {
+        remainingSeconds--;
+    }
 }
 
 
 
 
- 
-
-   
 
 
 

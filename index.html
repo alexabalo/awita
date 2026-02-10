@@ -22,20 +22,24 @@
     </div>
 
     <div class="mb-3">
-        <p class="mb-2">Recordarme cada : </p>
+        <p class="my-3 text-center">Recordarme cada : </p>
         <div class="btn-group w-100" role="group">
-            <button class="btn btn-outline-primary interval-btn" date-minutes="30">
+            <button class="btn btn-outline-primary interval-btn" data-minutes="30">
                 30 minutos
             </button>
 
-            <button class="btn btn-outline-primary interval-btn" date-minutes="45">
+            <button class="btn btn-outline-primary interval-btn" data-minutes="45">
                 45 minutos
             </button>
 
-            <button class="btn btn-outline-primary interval-btn" date-minutes="60">
+            <button class="btn btn-outline-primary interval-btn" data-minutes="60">
                 60 minutos
             </button>
         </div>
+
+        <p class="mt-3 text-center">
+            Proximo recordatorio en : <strong id="countdown">--:--</strong>
+        </p>
 
     </div>
 
