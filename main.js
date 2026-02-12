@@ -10,6 +10,7 @@ if (lastDate !== today) {
     localStorage.setItem("current", 0);
     localStorage.setItem("lastDate", today);
 }
+let nextReminderTime = null;
 
 
 //se pregunta si hay algo guardado
@@ -81,26 +82,32 @@ let reminderTimeout = null;
 let reminderInterval = null;
 
 function startReminder(minutes){
-    if (!minutes || isNaN(minutes)) return;
+    if(!minutes || isNaN(minutes)) return;
 
-    clearTimeout(reminderTimeout);
-    clearInterval(reminderInterval);
-    clearInterval(countdownInterval);
+     clearTimeout(reminderTimeout);
+     clearInterval(reminderInterval);
+     clearInterval(countdownInterval);
 
-    remainingSeconds = minutes * 60;
-    updateCountdown();
-    countdownInterval = setInterval(updateCountdown, 1000);
+     nextReminderTime = Data.now() + minutes * 60 * 1000;
+     localStorage.setItem("nextReminderTime", nextReminderTime);
 
-    reminderTimeout = setTimeout(() => {
+     startCountdown();
+
+     reminderTimeout = setTimeout(() => {
         reminder();
-        remainingSeconds = minutes * 60;
+
+        nextReminderTime = Date.now() +  minutes * 60 * 1000;
+        localStorage.setItem("nextReminderTime", nextReminderTime);
 
         reminderInterval = setInterval(() => {
             reminder();
-            remainingSeconds = minutes * 60;
-        }, minutes * 60 * 1000);
 
-    }, minutes * 60 * 1000);
+            nextReminderTime = Date.now() + minutes * 60 * 1000;
+            localStorage.setItem("nextReminderTime", nextReminderTime);
+
+        }, minutes * 60 * 1000);
+     }, minutes * 60 * 1000);
+   
 }
 
 
@@ -108,8 +115,11 @@ function stopReminder(){
     clearTimeout(reminderTimeout);
     clearInterval(reminderInterval);
     clearInterval(countdownInterval);
+
+    localStorage.removeItem("nextReminderTime");
     countdownEl.textContent = "✔️ Meta alcanzada";
 }
+
 
 
 function setActiveButton(minutes) {
@@ -139,19 +149,38 @@ setActiveButton(savedInterval);
 
 
 //funcion actualizar contador
-function updateCountdown(){
-    const minutes = Math.floor(remainingSeconds / 60);
-    const seconds = remainingSeconds % 60;
+ function startCountdown(){
+    clearInterval(countdownInterval);
 
-    countdownEl.textContent =
-        `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    countdownInterval = setInterval(() => {
+        const remaining = nextReminderTime - Date.now();
 
-    if (remainingSeconds > 0) {
-        remainingSeconds--;
+        if(remaining <= 0){
+            countdownEl.textContent = "00:00";
+            clearInterval(countdownInterval);
+            return;
+        }
+
+        const totalSeconds = Math.floor(remaining / 1000);
+        const min = String(Math.floor(totalSeconds / 60)).padStart(1, "0");
+        const sec = String(totalSeconds % 60).padStart(2, "0");
+
+        countdownEl.textContent = `${min}:${sec}`;
+    }, 1000);
+
+ }
+
+ const savedNextTime = localStorage.getItem("nextReminderTime");
+ if(savedNextTime){
+    nextReminderTime = Number(savedNextTime);
+
+    if(nextReminderTime > Date.now()){
+        startCountdown();
+    }else{
+        countdownEl.textContent = "00:00";
+        localStorage.removeItem("nextReminderTime");
     }
-}
-
-
+ }
 
 
 
