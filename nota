@@ -85,10 +85,7 @@ Decime cuál y seguimos 💪🚀
 🚀 Notificaciones reales (Notification API)
 🚀 Modo oscuro
 🚀 Historial semanal
-🚀 Reset automático a las 00:00
-🚀 PWA (instalable como app)
 
-<<<<<<< HEAD
 
 =======
 1️⃣ Guardar intervalo en localStorage
@@ -96,9 +93,14 @@ Decime cuál y seguimos 💪🚀
 3️⃣ Mostrar “Próximo recordatorio en X min”
 4️⃣ Notificaciones reales (sin alert)
 5️⃣ Convertirla en PWA instalable
->>>>>>> c8211c75b7238bd0a7f08ee7e5a295dd8f0b668c
 
 
+
+
+🔜 SIGUIENTE NIVEL (elegí vos)
+
+1️⃣ Botón Pausar / Reanudar
+2️⃣ Modo silencioso
 3️⃣ Historial diario
 4️⃣ Convertirla en PWA instalable 📱
-5️⃣ Pulir UX visual (colores dinámicos, a
+5️⃣ Pulir UX visual (colores dinámicos, animaciones)

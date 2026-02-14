@@ -7,3 +7,7 @@
 :root{
     --bs-body-bg: #A2CADF ;
 }
+
+.btn{
+flex-wrap: wrap;
+}

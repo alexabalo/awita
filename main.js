@@ -12,6 +12,11 @@ if (lastDate !== today) {
 }
 let nextReminderTime = null;
 
+//funcion para pausar app o continuar
+
+let isPaused = false;
+const pauseBtn = document.getElementById("pauseBtn");
+
 
 //se pregunta si hay algo guardado
 const savedCurrent = localStorage.getItem("current");
@@ -88,7 +93,7 @@ function startReminder(minutes){
      clearInterval(reminderInterval);
      clearInterval(countdownInterval);
 
-     nextReminderTime = Data.now() + minutes * 60 * 1000;
+     nextReminderTime = Date.now() + minutes * 60 * 1000;
      localStorage.setItem("nextReminderTime", nextReminderTime);
 
      startCountdown();
@@ -148,11 +153,13 @@ setActiveButton(savedInterval);
 
 
 
-//funcion actualizar contador
+//funcion actualizar contador y solo variable pausar
  function startCountdown(){
     clearInterval(countdownInterval);
 
     countdownInterval = setInterval(() => {
+
+        if(isPaused) return;
         const remaining = nextReminderTime - Date.now();
 
         if(remaining <= 0){
@@ -162,7 +169,7 @@ setActiveButton(savedInterval);
         }
 
         const totalSeconds = Math.floor(remaining / 1000);
-        const min = String(Math.floor(totalSeconds / 60)).padStart(1, "0");
+        const min = String(Math.floor(totalSeconds / 60)).padStart(2, "0");
         const sec = String(totalSeconds % 60).padStart(2, "0");
 
         countdownEl.textContent = `${min}:${sec}`;
@@ -181,6 +188,69 @@ setActiveButton(savedInterval);
         localStorage.removeItem("nextReminderTime");
     }
  }
+
+//funcion Pausar/Reanudar
+pauseBtn.addEventListener("click", ()=> {
+    if(!nextReminderTime) return;
+
+    //"Si NO está pausado… entonces vamos a pausarlo."
+    if(!isPaused){
+        isPaused = true;
+        localStorage.setItem("isPaused", "true");
+
+        //"¿Cuántos segundos quedaban antes de que suene?"
+        const remaining = nextReminderTime - Date.now();
+
+        //Guardamos cuánto faltaba.
+        //Así cuando reanude, puede continuar desde ahí.
+        localStorage.setItem("remainingTime", remaining);
+
+        //Cancelamos la alarma.
+        clearTimeout(reminderTimeout);
+
+        //Detenemos el contador que actualiza los segundos.
+        clearInterval(reminderInterval);
+
+
+        pauseBtn.textContent = "▶️ Reanudar";
+
+        pauseBtn.classList.remove("btn-warning");
+        pauseBtn.classList.add("btn-success");
+
+
+    }else{
+        //REANUDAR para que ya no este pausado
+        isPaused = false;
+
+        //Guardamos que ya no está pausado.
+        localStorage.setItem("isPaused", "false");
+
+        //cuanto tiempo faltaba y lo convertimos en numero
+        const savedRemaining = Number(localStorage.getItem("remainingTime"));
+
+        //Calculamos el nuevo momento en el que debe sonar.
+        //Es como decir:
+        //"Si faltaban 30 segundos, entonces ahora sonará dentro de 30 segundos desde este momento."
+        nextReminderTime = Date.now() + savedRemaining;
+
+        //guardamos esa nueva hora
+        localStorage.setItem("nextReminderTime", nextReminderTime);
+        
+        startCountdown();
+
+        reminderTimeout = setTimeout(()=> {
+            reminder();
+        }, savedRemaining);
+
+        pauseBtn.textContent = "⏸️ Pausar";
+
+        pauseBtn.classList.remove("btn-success");
+        pauseBtn.classList.add("btn-warning");
+
+
+    }
+
+})
 
 
 
