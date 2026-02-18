@@ -4,7 +4,7 @@
 let goal = 8;
 
 //reset diario
-const today = new Date().toDateString();
+const today = new Date().toISOString().split("T")[0];
 const lastDate = localStorage.getItem("lastDate");
 if (lastDate !== today) {
     localStorage.setItem("current", 0);
@@ -41,12 +41,17 @@ const intervalsButtons = document.querySelectorAll(".interval-btn");
 goalEl.textContent = goal;
 
 updateUI();
+renderChart();
+
 
 drinkBtn.addEventListener("click", () => {
     if (current < goal) {
         current++;
         localStorage.setItem("current", current);
         updateUI();
+
+         updateDailyHistory(current);  
+        renderChart();
 
         remainingSeconds = 0;
         updateCountdown();
@@ -247,12 +252,95 @@ pauseBtn.addEventListener("click", ()=> {
         pauseBtn.classList.remove("btn-success");
         pauseBtn.classList.add("btn-warning");
 
-
     }
 
-})
+
+});
+function getToday(){
+    return new Date().toISOString().split("T")[0];
+}
 
 
+function getHistory(){
+    //Convierte un string en formato JSON a un objeto real de JavaScript.
+    return JSON.parse(localStorage.getItem("history")) || {}
+}
+
+
+function saveHistory(history){
+    localStorage.setItem("history", JSON.stringify(history));
+}
+
+//actualizar consumo del dia "current amount = cantidad actual"
+function updateDailyHistory(currentAmount) {
+    const history = getHistory();
+   const today = getToday();
+
+
+;
+
+    history[today] = currentAmount;
+
+    saveHistory(history);
+}
+
+
+//obtener los ultimos 7 dias
+function  getLast7Days(){
+    const history = getHistory();
+
+    const days = [];
+
+    for(let i = 6; i>=0; i--){
+        const date = new Date();
+        date.setDate(date.getDate() - i);
+        const formatted = date.toISOString().split("T")[0];
+        days.push({
+            date:formatted,
+            amount: history[formatted] || 0
+        });
+    }
+
+    return days;
+}
+
+//chart.js
+let weeklyChart = null;
+function renderChart(){
+    const data = getLast7Days();
+    const labels = data.map(d => d.date.slice(5)); 
+    const values = data.map(d => d.amount);
+
+const ctx = document.getElementById("weeklyChart").getContext("2d");
+    
+    //Si ya existe un gráfico anterior  destruilo
+    if(weeklyChart){
+        weeklyChart.destroy();
+    }
+    
+    weeklyChart = new Chart(ctx, {
+        //Le decimos que el gráfico será de tipo barras
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Vasos",
+                data: values
+            }]
+        },
+
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero:true
+                }
+            }
+        }
+
+    });
+     
+}
 
 
 

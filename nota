@@ -1,34 +1,10 @@
 Mostrar notificación solo si no tomaste agua
 
-Detenerlas cuando llegas a la meta
+//Detenerlas cuando llegas a la meta
 
 Convertir esto en una mini app 💧📱
 
 Siguiente paso (te recomiendo)
-
-Decime:
-1️⃣ ¿Querés que la hagamos paso a paso?
-2️⃣ ¿O querés que te arme una versión PRO completa con:
-
-localStorage
-
-configuración
-
-notificaciones
-
-diseño moderno
-
-Y la construimos como si fuera una app para publicar 🚀
-
-
-
-✅ Básicas (obligatorias)
-
-✔ Recordatorio automático (setInterval)
-✔ Notificación o alerta
-✔ Botón “Ya tomé agua”
-✔ Contador de vasos
-✔ Progreso diario (%)
 
 Después podés cambiar alert por:
 
@@ -37,20 +13,6 @@ Sonido
 Notificación real
 
 Toast de Bootstrap
-
-Decime:
-1️⃣ ¿Querés que la hagamos paso a paso?
-2️⃣ ¿O querés que te arme una versión PRO completa con:
-
-localStorage
-
-configuración
-
-notificaciones
-
-diseño moderno
-
-Y la construimos como si fuera una app para publicar 🚀
 
 
 🔥 Próximo paso natural
@@ -87,8 +49,6 @@ Decime cuál y seguimos 💪🚀
 🚀 Historial semanal
 
 
-=======
-1️⃣ Guardar intervalo en localStorage
 2️⃣ Resaltar botón activo
 3️⃣ Mostrar “Próximo recordatorio en X min”
 4️⃣ Notificaciones reales (sin alert)
@@ -99,8 +59,39 @@ Decime cuál y seguimos 💪🚀
 
 🔜 SIGUIENTE NIVEL (elegí vos)
 
-1️⃣ Botón Pausar / Reanudar
 2️⃣ Modo silencioso
 3️⃣ Historial diario
 4️⃣ Convertirla en PWA instalable 📱
 5️⃣ Pulir UX visual (colores dinámicos, animaciones)
+
+🔥 Próximo nivel real (elegí uno)
+
+1️⃣ Animación circular del timer (nivel UI pro)
+2️⃣ Historial semanal con gráfico
+3️⃣ Modo oscuro
+4️⃣ Convertirla en PWA instalable
+5️⃣ Mejorar diseño tipo app real
+
+🎯 Siguiente mejora profesional real
+
+Después de corregir errores:
+
+Agregar línea horizontal de meta en el gráfico
+
+Agregar racha (streak)
+
+Agregar botón reset manual
+
+Convertir en PWA
+
+🎯 Siguiente mejora profesional real
+
+Después de corregir errores:
+
+Agregar línea horizontal de meta en el gráfico
+
+Agregar racha (streak)
+
+Agregar botón reset manual
+
+Convertir en PWA
