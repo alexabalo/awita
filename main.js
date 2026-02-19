@@ -41,7 +41,7 @@ const intervalsButtons = document.querySelectorAll(".interval-btn");
 goalEl.textContent = goal;
 
 updateUI();
-renderChart();
+
 
 
 drinkBtn.addEventListener("click", () => {
@@ -306,6 +306,8 @@ function  getLast7Days(){
 
 //chart.js
 let weeklyChart = null;
+
+
 function renderChart(){
     const data = getLast7Days();
     const labels = data.map(d => d.date.slice(5)); 
@@ -313,16 +315,13 @@ function renderChart(){
 
 const ctx = document.getElementById("weeklyChart").getContext("2d");
     
-    //Si ya existe un gráfico anterior  destruilo
-    if(weeklyChart){
-        weeklyChart.destroy();
-    }
+   
     
     weeklyChart = new Chart(ctx, {
         //Le decimos que el gráfico será de tipo barras
         type: "bar",
         data: {
-            labels: labels,
+            labels: labels, 
             datasets: [{
                 label: "Vasos",
                 data: values
@@ -339,8 +338,14 @@ const ctx = document.getElementById("weeklyChart").getContext("2d");
         }
 
     });
+
+     //Si ya existe un gráfico anterior  destruilo
+    if(weeklyChart){
+        weeklyChart.destroy();
+    }
      
 }
 
+renderChart();
 
 
