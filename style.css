@@ -5,9 +5,68 @@
 }
 
 :root{
-    --bs-body-bg: #A2CADF ;
+    --bs-body-bg: #19445c ;
 }
 
-.btn{
-flex-wrap: wrap;
+body{
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #3a7bd5, #00d2ff);
+
 }
+
+.container{
+    max-width: 480px;
+}
+
+.app-wrapper{
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+}
+
+.card-custom{
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(15px);
+    border-radius: 30px;
+    padding: 35px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+     border: 1px solid rgba(255,255,255,0.2);
+    
+}
+
+.circle-container{
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin: 30px;
+}
+
+svg{
+    transform: rotate(-90deg);
+}
+
+.circle-bg{
+    fill: none;
+    stroke: rgba(255,255,255,0.2);
+    stroke-width: 12;
+}
+
+.circle-progress{
+    fill: none;
+    stroke:url(#gradient);
+    stroke-width: 12;
+     stroke-linecap: round;
+  stroke-dasharray: 440;
+  stroke-dashoffset: 440;
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+.circle-text{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 28px;
+    font-weight: 600;
+}
+

@@ -313,12 +313,15 @@ function renderChart(){
     const labels = data.map(d => d.date.slice(5)); 
     const values = data.map(d => d.amount);
 
-const ctx = document.getElementById("weeklyChart").getContext("2d");
-    
-   
-    
+    const ctx = document.getElementById("weeklyChart").getContext("2d");
+
+    // 🔥 PRIMERO destruimos si existe
+    if(weeklyChart){
+        weeklyChart.destroy();
+    }
+
+    // 🔥 DESPUÉS creamos el nuevo
     weeklyChart = new Chart(ctx, {
-        //Le decimos que el gráfico será de tipo barras
         type: "bar",
         data: {
             labels: labels, 
@@ -327,7 +330,6 @@ const ctx = document.getElementById("weeklyChart").getContext("2d");
                 data: values
             }]
         },
-
         options: {
             responsive: true,
             scales: {
@@ -336,16 +338,20 @@ const ctx = document.getElementById("weeklyChart").getContext("2d");
                 }
             }
         }
-
     });
-
-     //Si ya existe un gráfico anterior  destruilo
-    if(weeklyChart){
-        weeklyChart.destroy();
-    }
-     
 }
 
+
 renderChart();
+
+function updateCircularProgress(percent) {
+    const circle = document.getElementById(circleProgress);
+    const text = document.getElementById(progressPorcent);
+
+    const radius = 70;
+    const circumFerence = 2 * Math.PI * radius;
+
+    const offset = circumFerence
+}
 
 
